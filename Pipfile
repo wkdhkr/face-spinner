@@ -12,7 +12,7 @@ numpy = "*"
 flask = "*"
 opencv-contrib-python = "*"
 matplotlib = "*"
-torch = {file = "https://download.pytorch.org/whl/cpu/torch-1.0.1.post2-cp36-cp36m-linux_x86_64.whl"}
+torch = {file = "https://download.pytorch.org/whl/cu100/torch-1.1.0-cp36-cp36m-win_amd64.whl", index="piwheels"}
 torchvision = "*"
 black = "==18.9b0"
 pytest = "*"
