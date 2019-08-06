@@ -2,9 +2,11 @@ import io
 import os
 import sys
 
+import json
 import cv2
 import numpy as np
 import torch
+import pprint
 from flask import Flask, request, make_response, send_file
 
 from face_spinner.utils import rotate_bound
@@ -57,6 +59,19 @@ def create_app():
 
         return instruction
 
+    def face_to_dict(face):
+        return vars(face)
+
+
+    @app.route("/detect", methods=["POST"])
+    def detect():
+        data = request.files["image"]
+        img_str = data.read()
+        nparr = np.fromstring(img_str, np.uint8)
+        img = cv2.imdecode(nparr, cv2.IMREAD_ANYCOLOR)
+        faces = model.detect(img)
+        return json.dumps(list(map(vars, faces)))
+
     @app.route("/align", methods=["POST"])
     def align():
         data = request.files["image"]
@@ -90,4 +105,4 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run("0.0.0.0")
+    app.run(debug=False, host="0.0.0.0")
